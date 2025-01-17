@@ -4,6 +4,10 @@
   <groupId>org.sample_microservice_project</groupId>
   <artifactId>Sample_Microservice_Project</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Archetype - Sample_Microservice_Project</name>
+    <packaging>pom</packaging>
+    <name>Archetype - Sample_Microservice_Project</name>
   <url>http://maven.apache.org</url>
+    <modules>
+        <module>order</module>
+    </modules>
 </project>
