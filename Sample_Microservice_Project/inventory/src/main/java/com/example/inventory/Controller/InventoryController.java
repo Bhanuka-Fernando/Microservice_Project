@@ -19,7 +19,7 @@ public class InventoryController {
         return inventoryService.getAllItems();
     }
 
-    @GetMapping("/getitem/{itemId}")
+    @GetMapping("/getitem/{itemId}") //not primary key only itemId
     public InventoryDTO getItemById(@PathVariable Integer itemId){
         return inventoryService.getItemById(itemId);
     }

@@ -12,4 +12,8 @@ public class InventoryDTO {
     private int itemId;
     private int productId;
     private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
 }
