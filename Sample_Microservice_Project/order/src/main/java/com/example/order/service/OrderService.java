@@ -9,11 +9,11 @@ import com.example.order.common.orderResponse;
 import com.example.order.dto.OrderDTO;
 import com.example.order.model.Orders;
 import com.example.order.repo.OrderRepo;
+import com.example.product.dto.ProductDTO;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -22,14 +22,17 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderService {
-    private final WebClient webClient;
+    private final WebClient productWebClient;
+    private final WebClient inventoryWebClient;
+
     @Autowired
     private OrderRepo orderRepo;
     @Autowired
     private ModelMapper modelMapper;
 
-    public OrderService(WebClient.Builder webClientBuilder, OrderRepo orderRepo, ModelMapper modelMapper) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080/api/v1").build();
+    public OrderService(WebClient inventoryWebClient, WebClient productWebClient, OrderRepo orderRepo, ModelMapper modelMapper) {
+        this.inventoryWebClient =  inventoryWebClient;
+        this.productWebClient = productWebClient;
         this.orderRepo = orderRepo;
         this.modelMapper = modelMapper;
     }
@@ -50,15 +53,32 @@ public class OrderService {
         int itemId = orderDTO.getItemId();
 
         try{
-            InventoryDTO inventoryResponse = webClient.get()
+            InventoryDTO inventoryResponse = inventoryWebClient.get()
                     .uri(uriBuilder -> uriBuilder.path("/getitem/{itemId}").build(itemId))
                     .retrieve() // to get data or response
                     .bodyToMono(InventoryDTO.class)  // return type
                     .block(); // use the method of bodyToMono
 
             assert inventoryResponse != null;
+
+            Integer productId = inventoryResponse.getProductId();
+
+            ProductDTO productResponse = productWebClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("/getproducts/{productId}").build(productId))
+                    .retrieve() // to get data or response
+                    .bodyToMono(ProductDTO.class)  // return type
+                    .block(); // use the method of bodyToMono
+
+            assert productResponse != null;
+
             if(inventoryResponse.getQuantity() > 0 ){
-                orderRepo.save(modelMapper.map(orderDTO, Orders.class));
+                if(productResponse.getForSale() == 1){
+                    orderRepo.save(modelMapper.map(orderDTO, Orders.class));
+                }
+                else{
+                    return new ErrorOrderResponse("Item is not for sale");
+                }
+
                 return new SuccessOrderResponse(orderDTO);
             }
             else {
