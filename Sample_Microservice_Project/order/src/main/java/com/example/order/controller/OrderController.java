@@ -1,5 +1,7 @@
 package com.example.order.controller;
 
+import com.example.base.dto.OrderEventDTO;
+import com.example.order.Kafka.OrderProducer;
 import com.example.order.common.orderResponse;
 import com.example.order.dto.OrderDTO;
 import com.example.order.service.OrderService;
@@ -14,6 +16,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderProducer orderProducer;
 
     @GetMapping("/getorders")
     public List<OrderDTO> getOrders(){
@@ -25,6 +29,10 @@ public class OrderController {
     }
     @PostMapping("/addorder")
     public orderResponse saveOrder(@RequestBody OrderDTO orderDTO){
+        OrderEventDTO orderEventDTO = new OrderEventDTO();
+        orderEventDTO.setMessage("Order is committed");
+        orderEventDTO.setStatus("pending");
+        orderProducer.sendMessage(orderEventDTO);
         return orderService.saveOrder(orderDTO);
     }
     @PutMapping("/updateorder")
