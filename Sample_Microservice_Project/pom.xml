@@ -19,6 +19,7 @@
         <module>order</module>
       <module>product</module>
       <module>inventory</module>
+        <module>base</module>
     </modules>
 
     <build>
