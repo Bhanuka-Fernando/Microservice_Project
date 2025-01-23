@@ -59,6 +59,10 @@
             <artifactId>product</artifactId>
             <version>1.0-SNAPSHOT</version> <!-- or can use as variable ${project.parent.version}  -->
         </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
