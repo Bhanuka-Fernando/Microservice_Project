@@ -49,6 +49,11 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.sample_microservice_project</groupId>
+            <artifactId>base</artifactId>
+            <version>${project.parent.version}</version> <!-- or can use as variable ${project.parent.version}  -->
+        </dependency>
 
     </dependencies>
 
