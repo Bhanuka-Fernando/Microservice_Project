@@ -13,7 +13,8 @@ Eureka Service Discovery: Ensures smooth communication between services, support
 Keycloak Security: Secures endpoints with role-based access and token authentication.
 This system is secure, modular, and designed for efficient order processing.
 
-start zookeeper = bin/zookeeper-server-start.sh config/zookeeper.properties
-start kafka server = bin/kafka-server-start.sh config/server.properties
+start zookeeper = bin/zookeeper-server-start.sh config/zookeeper.properties  
+start kafka server = bin/kafka-server-start.sh config/server.properties  
+
 start keycloak = bin/kc.sh start-dev
 
