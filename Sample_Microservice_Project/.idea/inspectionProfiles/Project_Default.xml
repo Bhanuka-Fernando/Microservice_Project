@@ -8,6 +8,8 @@
           <option value="order" />
           <option value="order" />
           <option value="discoveryserver" />
+          <option value="inventory" />
+          <option value="product" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -15,10 +17,14 @@
           <option value="ch.qos.logback:logback-core:1.5.12" />
           <option value="commons-io:commons-io:2.11.0" />
           <option value="ch.qos.logback:logback-core:1.5.12" />
+          <option value="ch.qos.logback:logback-core:1.5.12" />
+          <option value="ch.qos.logback:logback-core:1.5.12" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
